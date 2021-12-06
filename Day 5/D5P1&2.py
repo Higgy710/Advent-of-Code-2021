@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 --- Day 5: Hydrothermal Venture ---
 
@@ -43,6 +42,32 @@ To avoid the most dangerous areas, you need to determine the number of points wh
 
 Consider only horizontal and vertical lines. At how many points do at least two lines overlap?
 
+--- Part Two ---
+
+Unfortunately, considering only horizontal and vertical lines doesn't give you the full picture; you need to also consider diagonal lines.
+
+Because of the limits of the hydrothermal vent mapping system, the lines in your list will only ever be horizontal, vertical, or a diagonal line at exactly 45 degrees. In other words:
+
+    An entry like 1,1 -> 3,3 covers points 1,1, 2,2, and 3,3.
+    An entry like 9,7 -> 7,9 covers points 9,7, 8,8, and 7,9.
+
+Considering all lines from the above example would now produce the following diagram:
+
+1.1....11.
+.111...2..
+..2.1.111.
+...1.2.2..
+.112313211
+...1.2....
+..1...1...
+.1.....1..
+1.......1.
+222111....
+
+You still need to determine the number of points where at least two lines overlap. In the above example, this is still anywhere in the diagram with a 2 or larger - now a total of 12 points.
+
+Consider all of the lines. At how many points do at least two lines overlap?
+
 """
 
 class Board():
@@ -52,14 +77,12 @@ class Board():
         self.max = [0,0]
         self.marked = 0
 
-
     def add(self, start, end, partOne):
         self.adjustField(start, end)
         if start[0] == end[0] or start[1] == end[1]:
             self.markNoneDiagonalFields(start, end)
         elif not partOne:
             self.markDiagonalFields(start,end)
-
 
     def adjustField(self, start, end):
         old_x, old_y = self.max[0], self.max[1]
@@ -72,8 +95,6 @@ class Board():
         if y_max > self.max[1]: self.max[1] = y_max
         self.processDiffs(old_y, 1)
 
-
-
     def processDiffs(self, old, dim):
         if dim == 0:
             for i in range(old+1, self.max[0]+1):
@@ -81,7 +102,6 @@ class Board():
         else:
             for i in range(self.max[0] + 1):
                 self.field[i].extend([0] * (self.max[1]-len(self.field[i])+1))
-
 
     def markNoneDiagonalFields(self, start, end):
         x_start, x_end = (start[0], end[0]+1) if start[0] < end[0] else (end[0], start[0]+1)
@@ -104,7 +124,6 @@ class Board():
             y = y+1 if increase_y else y-1
             self.field[x][y] += 1
             if self.field[x][y] == 2: self.marked += 1
-
 
 with open('input.txt') as f:
     lines = f.readlines()
