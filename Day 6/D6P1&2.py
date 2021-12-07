@@ -62,6 +62,8 @@ After 256 days in the example above, there would be a total of 26984457539 lante
 How many lanternfish would there be after 256 days?
 
 """
+import time
+
 def partOneAndTwo(generations):
     with open('input.txt') as f:
         lines = f.readlines()
@@ -80,5 +82,9 @@ def partOneAndTwo(generations):
     
     return sum(living_dict.values())
 
+start = time.perf_counter()
 print("Answer 1: %d" %partOneAndTwo(80))
 print("Answer 2: %d" %partOneAndTwo(256))
+end = time.perf_counter()
+delta = end - start
+print("Processes took %0.9f seconds" % delta)
